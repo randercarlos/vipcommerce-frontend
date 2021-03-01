@@ -1,0 +1,192 @@
+<div class="row">
+
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+
+        <h3 class="panel-title">
+          <ng-container *ngIf="this.formMode === FORM_MODE.Create">
+            {{ 'users.user_new' | translate }}
+          </ng-container>
+
+          <ng-container *ngIf="this.formMode === FORM_MODE.Edit">
+            {{ 'users.user_edit' | translate }}
+          </ng-container>
+
+          <ng-container *ngIf="this.formMode === FORM_MODE.View">
+            {{ 'users.user_view' | translate }}
+          </ng-container>
+        </h3>
+
+      </div>
+      <div class="panel-body">
+          <form [formGroup]="userForm" (ngSubmit)="save();">
+            <div class="row">
+
+              <div class="form-group col-md-1">
+                <img [src]="user?.picture?.medium" title="Imagem"
+                  style="width: 100px; height: 80px; border-radius: 50%" />
+              </div>
+
+              <div class="form-group col-md-11"
+                [class.has-error]="this.validationService.hasError(this.userForm.get('name'))">
+
+                <label for="name" class="required control-label">{{ 'global.name' | translate }}:</label>
+                <input type="text" class="form-control" id="name" name="name" maxlength="60"
+                  formControlName="name" required />
+
+                <field-errors [fieldControl]="this.userForm.get('name')"
+                  [transValue]="{name: 'Nome', min: '3'}"></field-errors>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="form-group col-md-8"
+                [class.has-error]="this.validationService.hasError(this.userForm.get('email'))">
+
+                <label for="email" class="required control-label">{{ 'global.email' | translate }}:</label>
+                <input type="text" class="form-control" id="email" name="email" maxlength="60"
+                  formControlName="email" required />
+
+                <field-errors [fieldControl]="this.userForm.get('email')"
+                  [transValue]="{name: 'Email', min: '5'}"></field-errors>
+              </div>
+
+              <div class="form-group col-md-2"
+                [class.has-error]="this.validationService.hasError(this.userForm.get('gender'))">
+
+                <label for="gender" class="required control-label">{{ 'global.gender' | translate }}:</label>
+                <input type="text" class="form-control" id="gender" name="gender" maxlength="15"
+                  formControlName="gender" required />
+
+                <field-errors [fieldControl]="this.userForm.get('gender')"
+                  [transValue]="{name: 'Gênero', min: '6'}"></field-errors>
+              </div>
+
+              <div class="form-group col-md-2"
+                [class.has-error]="this.validationService.hasError(this.userForm.get('birthday'))">
+
+                <label for="birthday" class="required control-label">{{ 'global.birthday' | translate }}:</label>
+                <input type="text" class="form-control" id="birthday" name="birthday" maxlength="10"
+                  formControlName="birthday" required />
+
+                <field-errors [fieldControl]="this.userForm.get('birthday')"
+                  [transValue]="{name: 'Data de Nasc.', min: '10'}"></field-errors>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="form-group col-md-4"
+                  [class.has-error]="this.validationService.hasError(this.userForm.get('id_value'))">
+
+                  <label for="id_value" class="required control-label">{{ 'global.id' | translate }}:</label>
+                  <input type="text" class="form-control" id="id_value" name="id_value" maxlength="15"
+                    formControlName="id_value" required />
+
+                  <field-errors [fieldControl]="this.userForm.get('id_value')"
+                    [transValue]="{name: 'ID Valor', min: '3'}"></field-errors>
+                </div>
+
+                <div class="form-group col-md-4"
+                  [class.has-error]="this.validationService.hasError(this.userForm.get('phone'))">
+
+                  <label for="phone" class="required control-label">{{ 'global.phone' | translate }}:</label>
+                  <input type="text" class="form-control" id="phone" name="phone" maxlength="20"
+                    formControlName="phone" required />
+
+                  <field-errors [fieldControl]="this.userForm.get('phone')"
+                    [transValue]="{name: 'Telefone', min: '5'}"></field-errors>
+                </div>
+
+                <div class="form-group col-md-4"
+                  [class.has-error]="this.validationService.hasError(this.userForm.get('nat'))">
+
+                  <label for="nat" class="required control-label">{{ 'global.nationatily' | translate }}:</label>
+                  <input type="text" class="form-control" id="nat" name="nat" maxlength="2"
+                    formControlName="nat" required />
+
+                  <field-errors [fieldControl]="this.userForm.get('nat')"
+                    [transValue]="{name: 'Nacion.', min: '2'}"></field-errors>
+                </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-md-4"
+                [class.has-error]="this.validationService.hasError(this.userForm.get('street'))">
+
+                <label for="street" class="required control-label">{{ 'global.street' | translate }}:</label>
+                <input type="text" class="form-control" id="street" name="street" maxlength="100"
+                  formControlName="street" required />
+
+                <field-errors [fieldControl]="this.userForm.get('street')"
+                  [transValue]="{name: 'Logradouro', min: '5'}"></field-errors>
+              </div>
+
+              <div class="form-group col-md-1"
+                [class.has-error]="this.validationService.hasError(this.userForm.get('name'))">
+
+                <label for="name" class="required control-label">{{ 'global.number' | translate }}:</label>
+                <input type="text" class="form-control" id="number" name="number" maxlength="60"
+                  formControlName="number" required />
+
+                <field-errors [fieldControl]="this.userForm.get('number')"
+                  [transValue]="{name: 'Nº', min: '3'}"></field-errors>
+              </div>
+
+              <div class="form-group col-md-2"
+                [class.has-error]="this.validationService.hasError(this.userForm.get('city'))">
+
+                <label for="city" class="required control-label">{{ 'global.city' | translate }}:</label>
+                <input type="text" class="form-control" id="city" name="city" maxlength="20"
+                  formControlName="city" required />
+
+                <field-errors [fieldControl]="this.userForm.get('city')"
+                  [transValue]="{name: 'Cidade', min: '3'}"></field-errors>
+              </div>
+
+              <div class="form-group col-md-1"
+                [class.has-error]="this.validationService.hasError(this.userForm.get('state'))">
+
+                <label for="state" class="required control-label">{{ 'global.state' | translate }}:</label>
+                <input type="text" class="form-control" id="state" name="state" maxlength="20"
+                  formControlName="state" required />
+
+                <field-errors [fieldControl]="this.userForm.get('state')"
+                  [transValue]="{name: 'Estado', min: '2'}"></field-errors>
+              </div>
+
+              <div class="form-group col-md-2"
+                [class.has-error]="this.validationService.hasError(this.userForm.get('name'))">
+
+                <label for="country" class="required control-label">{{ 'global.country' | translate }}:</label>
+                <input type="text" class="form-control" id="country" name="country" maxlength="60"
+                  formControlName="country" required />
+
+                <field-errors [fieldControl]="this.userForm.get('country')"
+                  [transValue]="{name: 'País', min: '3'}"></field-errors>
+              </div>
+
+              <div class="form-group col-md-2"
+                [class.has-error]="this.validationService.hasError(this.userForm.get('postcode'))">
+
+                <label for="postcode" class="required control-label">{{ 'global.postcode' | translate }}:</label>
+                <input type="text" class="form-control" id="postcode" name="postcode" maxlength="10"
+                  formControlName="postcode" required />
+
+                <field-errors [fieldControl]="this.userForm.get('postcode')"
+                  [transValue]="{name: 'Código Postal (CEP)', min: '5'}"></field-errors>
+              </div>
+            </div>
+
+            <div class="row">
+              <form-action-buttons [form]="this.userForm" goBackRoute="/users"
+                [cancel]="cancel.bind(this)"></form-action-buttons>
+            </div>
+          </form>
+      </div><!-- panel-body -->
+    </div>
+  </div>
+
+</div>

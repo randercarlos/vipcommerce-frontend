@@ -1,0 +1,136 @@
+<div class="col-md-12">
+  <div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title">{{ 'users.user_filters' | translate }}</h3></div>
+    <div class="panel-body">
+
+        <form [formGroup]="this.userFilterForm">
+          <div class="row">
+
+            <div class="form-group col-md-12">
+              <label for="name">{{ 'global.name' | translate }}: (qualquer parte do nome)</label>
+              <input type="text" class="form-control" id="name" name="name" pKeyFilter="alphanum" maxlength="60"
+                formControlName="name" />
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="form-group col-md-6">
+              <label for="gender">{{ 'global.gender' | translate }}:</label>
+              <select id="gender" name="gender" class="form-control" formControlName="gender" required>
+                <option value="">Selecione um gênero...</option>
+                <option value="male">Masculino</option>
+                <option value="female">Feminino</option>
+              </select>
+            </div>
+
+
+            <div class="form-group col-md-6">
+              <label for="nat">{{ 'global.nationatily' | translate }}:</label>
+              <select id="nat" name="nat" class="form-control" formControlName="nat" required>
+                <option value="">Selecione uma nacionalidade...</option>
+                <option *ngFor="let nat of this.nats">{{ nat }}</option>
+              </select>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="form-group col-md-12">
+
+              <filter-action-buttons [form]="this.userFilterForm" [dataTable]="this.dataTable"
+                [filter]="filter.bind(this)"></filter-action-buttons>
+
+            </div>
+          </div>
+        </form>
+
+    </div><!-- panel-body -->
+  </div>
+</div>
+
+
+
+<div class="col-md-12">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">{{ 'users.user_list' | translate }}</h3>
+    </div>
+    <div class="panel-body">
+      <!-- <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+
+          <div class="btn-toolbar m-b-15">
+
+            <div class="pull-right">
+              <a href="#" class="btn btn-primary" routerLink="/users/create">
+                <i class="fa fa-file"></i>
+                {{ 'users.user_new' | translate }}
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div> -->
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+
+          <p-table #dataTable [value]="this.users" [columns]="tableColumns" [paginator]="appConfig.paginator"
+            [rows]="50" [showCurrentPageReport]="appConfig.showCurrentPageReport"
+            [resizableColumns]="appConfig.resizableColumns" [responsive]="appConfig.responsive"
+            [rowHover]="appConfig.rowHover" currentPageReportTemplate="{{ appConfig.currentPageReportTemplate | translate}}"
+            [rowsPerPageOptions]="appConfig.rowsPerPageOptions" [totalRecords]="this.totalRecords"
+            [lazy]="appConfig.lazy" (onLazyLoad)="loadUsers($event)" [loading]="this.tableLoading" styleClass="p-datatable-responsive-demo">
+
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.sort ? col.field : null"  pResizableColumn
+                  [style.width]="col?.width" [style.text-align]="col.align ? col.align : null">
+                  {{ col.header | translate }}
+                  <p-sortIcon [field]="col.sort ? col.field : null" *ngIf="col.sort" ></p-sortIcon>
+                </th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-record let-columns="columns">
+              <tr>
+                <td *ngFor="let col of columns" class="ui-resizable-column ui-selectable-row"
+                  [style.text-align]="col.align ? col.align : null">
+
+                  <ng-container *ngIf="col.field != 'actions'">
+                    {{ record[col.field] }}
+                  </ng-container>
+
+                  <ng-container *ngIf="col.field == 'actions'">
+
+                    <datatable-action-buttons [record]="record" [confirm]="confirm.bind(this)"></datatable-action-buttons>
+
+                  </ng-container>
+
+                </td>
+              </tr>
+            </ng-template>
+
+
+            <ng-template pTemplate="emptymessage" let-columns>
+              <tr>
+                <td [attr.colspan]="columns.length">
+                  {{ appConfig.emptymessage | translate }}
+                </td>
+              </tr>
+            </ng-template>
+
+          </p-table>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-confirmDialog header="{{ appConfig.confirmHeader | translate }}" [icon]="appConfig.confirmIcon"
+acceptLabel="{{ appConfig.yesLabel | translate }}" rejectLabel="{{ appConfig.noLabel | translate }}"></p-confirmDialog>
+
+<p-blockUI [blocked]="this.tableLoading" [target]="dataTable"></p-blockUI>
